@@ -6,6 +6,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -116,9 +117,10 @@ public class Main {
         try (FileOutputStream fileOutputStream = new FileOutputStream(outputPath.toFile());
              PrintStream out = new PrintStream(fileOutputStream)) {
             out.println(getInfo());
+            AtomicInteger i = new AtomicInteger(1);
             setOfDuplicatesInMaps.forEach(m -> {
                 for (Map.Entry<Long, Set<List<Long>>> longs : m.entrySet()) {
-                    out.println("Группа " + longs.getKey());
+                    out.println("Группа " + i.getAndIncrement());
                     longs.getValue().forEach(out::println);
                 }
             });
